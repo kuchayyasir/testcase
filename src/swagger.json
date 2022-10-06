@@ -1,0 +1,618 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Activities CRUD",
+    "description": "Activities Application API",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:4000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Activities",
+      "description": "API for activities in the system"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "name": "Authorization",
+      "in": "header",
+      "type": "apiKey",
+      "description": "JWT Authorization header"
+    }
+  },
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/api/activity": {
+      "post": {
+        "tags": ["Activities"],
+        "description": "Create new activity in system",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT access token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Activity that we want to create",
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New activity is created",
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      },
+      "get": {
+        "tags": ["Activities"],
+        "summary": "Get all activities in system",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT access token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Activities"
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/api/activity/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of activity that we want to find",
+          "type": "string"
+        }
+      ],
+      "delete": {
+        "summary": "Delete activity with given ID",
+        "tags": ["Activities"],
+        "responses": {
+          "200": {
+            "description": "Activity is deleted",
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Get activity with give ID",
+        "tags": ["Activities"],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Activity with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Activity is updated",
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Activities"],
+        "summary": "Get activity in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            }
+          }
+        }
+      }
+    },
+    "/api/generateToken": {
+      "get": {
+        "tags": ["Generate Token"],
+        "description": "Generate Authorization Token",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New token is created",
+            "schema": {
+              "$ref": "#/definitions/Token"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Activity": {
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "017cf9b525a7123072f4200000012345"
+        },
+        "activity_id_enc": {
+          "type": "string",
+          "example": "SUOrj6WdM87pbwt2pzu0luELeI8Nld_4QKvcQ4pb2xk"
+        },
+        "activity_name": {
+          "type": "string",
+          "example": "Ice Hockey"
+        },
+        "description": {
+          "type": "string",
+          "example": "Ice hockey is a sport in which two teams participate on an ice rink while wearing skates. Each squad typically consists of six players. The goal is to get the puck beyond the goal line and into the net, which is guarded by a goaltender. Ice hockey is popular because of its fast pace and frequent physical contact."
+        },
+        "visibility": {
+          "type": "boolean"
+        },
+        "manual_validation_flag": {
+          "type": "boolean"
+        },
+        "provider_name": {
+          "type": "string",
+          "example": "Abu Dhabi Ice Sports Club"
+        },
+        "provider_id": {
+          "type": "string",
+          "example": "017bb2531d0f1210bc04200000012345"
+        },
+        "branch_name": {
+          "type": "string",
+          "example": "Abu Dhabi Ice Sports Club - Al Hili"
+        },
+        "branch_id": {
+          "type": "string",
+          "example": "017bb2531f4d1220bc14200000012345"
+        },
+        "max_capacity": {
+          "type": "integer",
+          "format": "int32",
+          "example": "50"
+        },
+        "cost": {
+          "type": "object",
+          "properties": {
+            "cost": {
+              "type": "integer",
+              "format": "int32",
+              "example": "45"
+            },
+            "currency": {
+              "type": "string",
+              "example": "AED"
+            }
+          }
+        },
+        "expected_duration": {
+          "type": "object",
+          "properties": {
+            "duration": {
+              "type": "integer",
+              "format": "int32",
+              "example": "1"
+            },
+            "unit": {
+              "type": "string",
+              "example": "hours"
+            }
+          }
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "address_line_1": {
+              "type": "string",
+              "example": "Abu Dhabi Ice Sports Club"
+            },
+            "street": {
+              "type": "string",
+              "example": "Al Hili"
+            },
+            "area": {
+              "type": "string",
+              "example": "Al Ain"
+            },
+            "landmark": {
+              "type": "string",
+              "format": "nullable"
+            },
+            "city": {
+              "type": "string",
+              "example": "Abu Dhabi"
+            },
+            "state": {
+              "type": "string",
+              "example": "Abu Dhabi"
+            },
+            "country": {
+              "type": "string",
+              "example": "United Arab Emirates"
+            },
+            "location": {
+              "type": "object",
+              "properties": {
+                "latitude": {
+                  "type": "number",
+                  "example": "24.304599043544105"
+                },
+                "longitude": {
+                  "type": "number",
+                  "example": "55.78875660896301"
+                }
+              }
+            }
+          }
+        },
+        "category": {
+          "type": "object",
+          "properties": {
+            "category_id": {
+              "type": "string",
+              "example": "61345c82b30fbffbab0a0ac1"
+            },
+            "category_name": {
+              "type": "string",
+              "example": "Winter sports centers"
+            },
+            "category_l1": {
+              "type": "string",
+              "example": "Sports & Games"
+            },
+            "category_l1_id": {
+              "type": "string",
+              "example": "SAG"
+            }
+          }
+        },
+        "weblinks": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "example": "juma6711116@gmail.com"
+            },
+            "website": {
+              "type": "string",
+              "example": "www.adisc.ae"
+            },
+            "facebook": {
+              "type": "string",
+              "example": "facebook.com/adisc.uae"
+            },
+            "instagram": {
+              "type": "string",
+              "example": "instagram.com/adisc_uae"
+            },
+            "youtube": {
+              "type": "string",
+              "example": "youtube.com/channel/UCIcovQBMO7K-cDm529QuqRA"
+            },
+            "twitter": {
+              "type": "string",
+              "example": "twitter.com/adisc_uae"
+            }
+          }
+        },
+        "images": {
+          "type": "array",
+          "items": {}
+        },
+        "is_visit_flag": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string",
+          "example": "visit"
+        },
+        "time_slots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "start_time": {
+                "type": "string",
+                "example": "2022-03-08T10:00:00.000Z"
+              },
+              "end_time": {
+                "type": "string",
+                "example": "2022-03-08T19:30:00.000Z"
+              },
+              "start_date": {
+                "type": "string",
+                "example": "2022-03-08T07:24:17.140Z"
+              },
+              "ending_type": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "ends-never"
+                  }
+                }
+              },
+              "repeat_on": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "example": "Sunday"
+                }
+              },
+              "repeat_every": {
+                "type": "integer",
+                "format": "int32",
+                "example": "1"
+              },
+              "repeat_frequency": {
+                "type": "string",
+                "example": "week"
+              }
+            }
+          }
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "indoor_only"
+          }
+        },
+        "traits": {
+          "type": "object",
+          "properties": {
+            "services": {
+              "type": "object",
+              "properties": {
+                "extra_services": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "service": {
+                        "type": "string",
+                        "example": "Beverages"
+                      },
+                      "cost": {
+                        "type": "string",
+                        "example": "10"
+                      },
+                      "currency": {
+                        "type": "string",
+                        "example": "AED"
+                      }
+                    }
+                  }
+                },
+                "pets_allowed": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "booking": {
+              "type": "object",
+              "properties": {
+                "booking_requirement": {
+                  "type": "string",
+                  "example": "No"
+                }
+              }
+            },
+            "age": {
+              "type": "object",
+              "properties": {
+                "accepted_ages": {
+                  "type": "object",
+                  "properties": {
+                    "min": {
+                      "type": "string",
+                      "example": "5"
+                    },
+                    "max": {
+                      "type": "string",
+                      "example": "70"
+                    }
+                  }
+                }
+              }
+            },
+            "dress_code-equipment": {
+              "type": "object",
+              "properties": {
+                "dress_code": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "Sportswear"
+                  }
+                }
+              }
+            },
+            "payment": {
+              "type": "object",
+              "properties": {
+                "payment_method": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "Cash"
+                  }
+                }
+              }
+            },
+            "languages": {
+              "type": "object",
+              "properties": {
+                "languages_spoken": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "Arabic"
+                  }
+                }
+              }
+            },
+            "parking": {
+              "type": "object",
+              "properties": {
+                "parking_availability": {
+                  "type": "boolean"
+                },
+                "valet_parking": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "weather": {
+              "type": "object",
+              "properties": {
+                "weather_condition_tolerant": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "source": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "example": "branch"
+            },
+            "time_slots": {
+              "type": "string",
+              "example": "branch"
+            },
+            "images": {
+              "type": "string",
+              "example": "activity"
+            }
+          }
+        },
+        "ts_create": {
+          "type": "object",
+          "properties": {
+            "$date": {
+              "type": "string",
+              "example": "2021-11-07T09:22:50.931Z"
+            }
+          }
+        },
+        "ts_update": {
+          "type": "object",
+          "properties": {
+            "$date": {
+              "type": "string",
+              "example": "2022-07-29T11:29:43.127Z"
+            }
+          }
+        },
+        "last_updated_by": {
+          "type": "string",
+          "format": "nullable"
+        },
+        "ts_etl_run": {
+          "type": "object",
+          "properties": {
+            "$date": {
+              "type": "string",
+              "example": "2022-08-01T18:00:06.401Z"
+            }
+          }
+        },
+        "ts_validate": {
+          "type": "object",
+          "properties": {
+            "$date": {
+              "type": "string",
+              "example": "2022-07-07T15:37:07.477Z"
+            }
+          }
+        },
+        "last_validated_by": {
+          "type": "string",
+          "example": "support@mazingday.com"
+        },
+        "system_validation_flag": {
+          "type": "boolean"
+        },
+        "validity": {
+          "type": "boolean"
+        },
+        "expired": {
+          "type": "boolean"
+        },
+        "issues": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "impact": {
+                "type": "string",
+                "example": "low"
+              },
+              "field": {
+                "type": "string",
+                "example": "landmark"
+              },
+              "source": {
+                "type": "string",
+                "example": "address"
+              },
+              "message": {
+                "type": "string",
+                "example": "Missing data"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Token": {
+      "properties": {
+        "token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dnZWRJbiI6dHJ1ZSwiaWF0IjoxNjY1MDU0MDkyLCJleHAiOjE2NjU2NTg4OTJ9.gYtCe5osklND8Xq7K67OF8CK7tJqYOY7tw_zi7GHyk4"
+        }
+      }
+    },
+    "Activities": {
+      "type": "array",
+      "$ref": "#/definitions/Activity"
+    }
+  }
+}
