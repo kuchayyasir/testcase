@@ -40,7 +40,7 @@ node src/index.js
  * admin-mongo interface will be displayed on http://localhost:8082/
  
  * add a random name to your connection and in the field connection string put the following connection string 
- (mongodb://mongo/myappdb)
+ (mongodb://mongodb/myappdb)
  
 ## API DOCS
 
